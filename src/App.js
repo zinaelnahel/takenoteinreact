@@ -29,7 +29,7 @@ export default function App() {
   }
   function handleDelete(event) {
     const filteredPendingTasks = pendingTasks.filter(
-      (task) => task.id !== event.target.id
+      (task) => task.id != event.target.id
     );
     setPending([...filteredPendingTasks]);
     const filteredCompletedTasks = completedTasks.filter(
