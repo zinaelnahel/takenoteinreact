@@ -1,23 +1,27 @@
 import React from "react";
 import "./styles.css";
 
-function TaskList({ tasks, handleDelete, handleComplete, completedTasks }) {
+function TaskList({
+  pendingTasks,
+  handleDelete,
+  toggleComplete,
+  completedTasks
+}) {
   return (
     <>
-      {tasks.map((tasks) => (
-        <div key={tasks.id} finished={tasks.finished}>
+      {pendingTasks.map((task) => (
+        <div name={task.name} key={task.id} finished="false" id={task.id}>
           <div>
             <div>
               <input
-                finished="false"
+                onChange={() => toggleComplete(task)}
                 type="checkbox"
                 className="form-check-input box"
-                onChange={handleComplete}
               />
             </div>
-            <div>{tasks.name}</div>
+            <div>{task.name}</div>
             <div>
-              <button id={tasks.id} onClick={handleDelete}>
+              <button id={task.id} onClick={handleDelete}>
                 Delete
               </button>
             </div>
@@ -25,21 +29,20 @@ function TaskList({ tasks, handleDelete, handleComplete, completedTasks }) {
         </div>
       ))}
       <h1>Completed below</h1>
-      {completedTasks.map((tasks) => (
-        <div key={completedTasks.id} finished={completedTasks.finished}>
+      {completedTasks.map((task) => (
+        <div name={task.name} key={task.id} finished="true" id={task.id}>
           <div>
             <div>
               <input
-                finished="true"
                 type="checkbox"
                 className="form-check-input box"
-                onChange={handleComplete}
-                checked
+                defaultChecked
+                onChange={() => toggleComplete(task)}
               />
             </div>
-            <div>{tasks.name}</div>
+            <div>{task.name}</div>
             <div>
-              <button id={completedTasks.id} onClick={handleDelete}>
+              <button id={task.id} onClick={handleDelete}>
                 Delete
               </button>
             </div>
@@ -54,3 +57,4 @@ export default TaskList;
 
 // Function that will handle the deletion.
 // sorting the taskarray, reassign to array without the target of the trigger
+
