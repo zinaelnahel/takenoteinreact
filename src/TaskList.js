@@ -10,10 +10,10 @@ function TaskList({
   saveEdit
 }) {
   return (
-    <>
+    <div className="container" >
       {pendingTasks.map((task) => (
         <div name={task.name} key={task.id} finished="false" id={task.id}>
-          <div>
+          <div className="task">
             <div>
               <input
                 onChange={() => toggleComplete(task)}
@@ -22,7 +22,7 @@ function TaskList({
               />
             </div>
             <div>
-              <input
+              <input className=""
                 defaultValue={task.name} //onblur
                 onChange={(event) => editTask(event)}
                 onBlur={() => saveEdit(task)}
@@ -36,10 +36,10 @@ function TaskList({
           </div>
         </div>
       ))}
-      <h1>Completed below</h1>
+      <h3>Completed</h3>
       {completedTasks.map((task) => (
         <div name={task.name} key={task.id} finished="true" id={task.id}>
-          <div>
+          <div className="task">
             <div>
               <input
                 type="checkbox"
@@ -51,6 +51,7 @@ function TaskList({
             <div>
               <input
                 defaultValue={task.name}
+                className="line-through"
                 // onBlur={() => saveEdit()}
                 // onChange={() => editTask(task)}
               />
@@ -63,7 +64,7 @@ function TaskList({
           </div>
         </div>
       ))}
-    </>
+    </div>
   );
 }
 

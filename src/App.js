@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import "./styles.css";
 
+
 import TaskList from "./TaskList";
+
+
 
 export default function App() {
   const [taskEditInput, setTaskEditInput] = useState("");
@@ -77,9 +80,12 @@ export default function App() {
 
   return (
     <div className="App">
+      
       <div className="block">
+        <h1>TakeNote!</h1>
         <form onSubmit={handleSubmit}>
           <input
+            
             id=""
             finished=""
             name="newTask"
