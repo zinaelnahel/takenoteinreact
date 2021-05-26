@@ -5,7 +5,9 @@ function TaskList({
   pendingTasks,
   handleDelete,
   toggleComplete,
-  completedTasks
+  completedTasks,
+  editTask,
+  saveEdit
 }) {
   return (
     <>
@@ -19,9 +21,15 @@ function TaskList({
                 className="form-check-input box"
               />
             </div>
-            <div>{task.name}</div>
             <div>
-              <button id={task.id} onClick={handleDelete}>
+              <input
+                defaultValue={task.name} //onblur
+                onChange={(event) => editTask(event)}
+                onBlur={() => saveEdit(task)}
+              />
+            </div>
+            <div>
+              <button id={task.id} onClick={() => handleDelete(task.id)}>
                 Delete
               </button>
             </div>
@@ -40,9 +48,15 @@ function TaskList({
                 onChange={() => toggleComplete(task)}
               />
             </div>
-            <div>{task.name}</div>
             <div>
-              <button id={task.id} onClick={handleDelete}>
+              <input
+                defaultValue={task.name}
+                // onBlur={() => saveEdit()}
+                // onChange={() => editTask(task)}
+              />
+            </div>
+            <div>
+              <button id={task.id} onClick={() => handleDelete(task.id)}>
                 Delete
               </button>
             </div>
@@ -57,4 +71,3 @@ export default TaskList;
 
 // Function that will handle the deletion.
 // sorting the taskarray, reassign to array without the target of the trigger
-
