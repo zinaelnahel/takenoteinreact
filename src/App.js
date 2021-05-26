@@ -4,9 +4,10 @@ import "./styles.css";
 import TaskList from "./TaskList";
 
 export default function App() {
+  const [taskEditInput, setTaskEditInput] = useState("");
   const [pendingTasks, setPending] = useState([]);
-
   const [completedTasks, setCompleted] = useState([]);
+
   function toggleComplete(task) {
     console.log(task);
 
@@ -25,18 +26,27 @@ export default function App() {
       );
       setCompleted(toggledCompletedTask);
     }
-   
   }
-  function handleDelete(event) {
-    const filteredPendingTasks = pendingTasks.filter(
-      (task) => task.id != event.target.id
-    );
+  // handleChange(event) {
+  //   const {name, value} = event.target
+  //   setState({
+  //       [name]: value
+  //   })
+
+  function handleDelete(id) {
+    // console.log(Number(event.target.id));
+    // console.log(parseInt(event.target.id, 10));
+    // console.log(+event.target.id);
+    console.log(id);
+
+    const filteredPendingTasks = pendingTasks.filter((task) => task.id !== id);
     setPending([...filteredPendingTasks]);
     const filteredCompletedTasks = completedTasks.filter(
-      (task) => task.id != event.target.id
+      (task) => task.id !== id
     );
     setCompleted([...filteredCompletedTasks]);
   }
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const newTask = {
@@ -47,6 +57,24 @@ export default function App() {
     setPending([...pendingTasks, newTask]);
     event.target.reset();
   };
+
+  function editTask(event) {
+    setTaskEditInput(event.target.value);
+  }
+
+  const saveEdit = (task) => {
+    console.log("saving");
+    task.name = taskEditInput;
+
+    console.log({ completedTasks, pendingTasks, task });
+
+    if (!task.finished) {
+      setPending([...pendingTasks.filter((t) => t.id !== task.id), task]);
+    } else {
+      setCompleted([...completedTasks.filter((t) => t.id !== task.id), task]);
+    }
+  };
+
   return (
     <div className="App">
       <div className="block">
@@ -67,6 +95,8 @@ export default function App() {
             completedTasks={completedTasks}
             handleDelete={handleDelete}
             toggleComplete={toggleComplete}
+            editTask={editTask}
+            saveEdit={saveEdit}
           />
         </div>
       </div>
