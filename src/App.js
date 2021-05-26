@@ -1,49 +1,50 @@
 import React, { useState } from "react";
 import "./styles.css";
-import ReactDOM from "react-dom";
+
 import TaskList from "./TaskList";
 
 export default function App() {
-  const [tasks, setTasks] = useState([
-    // {
-    //   id: "1",
-    //   finished: false,
-    //   name: "Cooking"
-    // },
-  ]);
+  const [pendingTasks, setPending] = useState([]);
 
-  const [finishedTasks, changeStatus] = useState([
-    // {
-    //   id: "1",
-    //   finished: true,
-    //   name: "Groceries"
-    // },
-  ]);
+  const [completedTasks, setCompleted] = useState([]);
+  function toggleComplete(task) {
+    console.log(task);
 
-  function handleComplete(event) {
-    console.log(event.target);
-    const completedTasks = tasks.filter((task) => task.finished === true);
-    console.log(completedTasks);
-    changeStatus([...completedTasks]);
-    const incompleteTasks = tasks.filter((task) => task.finished === false);
-    setTasks([...incompleteTasks]);
+    if (task.finished === false) {
+      task.finished = true;
+      setCompleted([...completedTasks, task]);
+      const toggledPendingTask = pendingTasks.filter(
+        (iter) => iter.name !== task.name
+      );
+      setPending(toggledPendingTask);
+    } else {
+      task.finished = false;
+      setPending([...pendingTasks, task]);
+      const toggledCompletedTask = completedTasks.filter(
+        (iter) => iter.name !== task.name
+      );
+      setCompleted(toggledCompletedTask);
+    }
+   
   }
-
   function handleDelete(event) {
-    //console.log(event.target.id);
-    const filteredTasks = tasks.filter((task) => task.id != event.target.id);
-    //console.log(filteredTasks);
-    setTasks([...filteredTasks]);
+    const filteredPendingTasks = pendingTasks.filter(
+      (task) => task.id !== event.target.id
+    );
+    setPending([...filteredPendingTasks]);
+    const filteredCompletedTasks = completedTasks.filter(
+      (task) => task.id != event.target.id
+    );
+    setCompleted([...filteredCompletedTasks]);
   }
-  //function addTask(name) {}
   const handleSubmit = (event) => {
     event.preventDefault();
     const newTask = {
       id: Math.floor(Math.random() * 999),
       finished: false,
-      name: event.target.newTask.value,
+      name: event.target.newTask.value
     };
-    setTasks([...tasks, newTask]);
+    setPending([...pendingTasks, newTask]);
     event.target.reset();
   };
   return (
@@ -62,10 +63,10 @@ export default function App() {
       <div className="block">
         <div>
           <TaskList
-            tasks={tasks}
-            completedTasks={finishedTasks}
+            pendingTasks={pendingTasks}
+            completedTasks={completedTasks}
             handleDelete={handleDelete}
-            handleComplete={handleComplete}
+            toggleComplete={toggleComplete}
           />
         </div>
       </div>
